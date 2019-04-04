@@ -9,6 +9,8 @@
 /** Core CSS required for ionic components to work property */
 @import "~@ionic/core/css/core.css";
 
+@import "~croppie/croppie.css";
+
 /** Basic CSS for apps built with Ionic */
 @import "~@ionic/core/css/normalize.css";
 @import "~@ionic/core/css/structure.css";

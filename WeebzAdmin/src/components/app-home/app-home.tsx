@@ -19,7 +19,8 @@ export class AppHome {
     });
 
     await modal.present();
-
+    let result = await modal.onDidDismiss();
+    console.log(result);
   }
 
   render() {

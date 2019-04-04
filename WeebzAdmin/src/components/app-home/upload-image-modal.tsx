@@ -1,4 +1,4 @@
-import { Component, State } from '@stencil/core';
+import { Component } from '@stencil/core';
 import Croppie from 'croppie';
 
 @Component({
@@ -10,9 +10,33 @@ export class UploadImageModal {
 
   urlImagem: any;
 
-  @State() crop: any;
+  crop: Croppie;
 
   resultadoFinal: any;
+
+  cropElement: HTMLElement;
+
+  componentDidLoad() {
+    this.crop = new Croppie(this.cropElement, {
+      enableExif: true,
+      enableOrientation: true,
+      viewport: {
+        width: 400,
+        height: 400,
+        type: 'circle',
+      },
+      boundary: {
+        width: 400,
+        height: 400,
+
+      }
+    });
+
+  }
+
+  componentDidUnload() {
+    this.crop.destroy();
+  }
 
   async voltar() {
     await this.modalController.componentOnReady();
@@ -21,52 +45,30 @@ export class UploadImageModal {
 
   async confirmar() {
 
-    this.crop.result({ type: "base64", format: "jpeg", size: 'original' }).then(function (base64) {
-      document.getElementById("imgbase64").setAttribute("src", base64);
-    });    
-  }
+    let base64promise = this.crop.result({ type: "base64", format: "jpeg", size: 'original' });
 
-  readImage(file): Promise<{ croppie: any, imagem: any }> {
-    return new Promise<{ croppie: any, imagem: any }>((resolve) => {
-      var reader = new FileReader();
+    let base64 = await base64promise;
 
-      reader.onload = function () {
-        var output = document.getElementById('upload-image') as any;
-        output.src = reader.result;
-
-        var croppie = new Croppie(output, {
-          enableExif: true,
-          enableOrientation: true,
-          viewport: {
-            width: 400,
-            height: 400,
-            type: 'circle',
-          },
-          boundary: {
-            width: 400,
-            height: 400,
-
-          }
-        });
-
-        croppie.bind({
-          orientation: 4,
-          url: output
-        });
-
-        resolve({ croppie: croppie, imagem: reader.result });
-      }
-      reader.readAsDataURL(file);
-    });
+    await this.modalController.componentOnReady();
+    await this.modalController.dismiss(base64);
   }
 
   async handleUploadImage(event) {
-    let file = event.target.files[0];
 
-    if (file) {
-      let urlImagem = await this.readImage(file);
-      this.crop = urlImagem.croppie;
-      this.urlImagem = urlImagem.imagem;
+    let input = event.target;
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = async () => {
+        this.cropElement.classList.add('ready');
+
+        await this.crop.bind({
+          url: reader.result as string
+        });
+      }
+
+      reader.readAsDataURL(input.files[0]);
     }
   }
 
@@ -108,11 +110,7 @@ export class UploadImageModal {
             </ion-col>
           </ion-row>
         </ion-grid>
-        <div>
-          <img id="upload-image" style={{ "display": "none" }} />
-        </div>
-        <div class="croppie-result">
-          <img id="imgbase64" />
+        <div ref={e => this.cropElement = e}>
         </div>
         <input type="file" onChange={(event) => this.handleUploadImage(event)} />
       </ion-content>,

@@ -16,7 +16,7 @@
   "dependencies": {
     "@ionic/core": "4.0.0",
     "@types/croppie": "^2.5.4",
-    "croppie": "^2.6.3"
+    "croppie": "https://github.com/Foliotek/Croppie.git"
   },
   "devDependencies": {
     "@stencil/core": "0.17.0"

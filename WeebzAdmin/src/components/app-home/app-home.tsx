@@ -6,24 +6,53 @@ import { Component } from '@stencil/core';
 })
 export class AppHome {
 
+  modalController: HTMLIonModalControllerElement;
+
+
+  async handleEditarImagem() {
+
+    await this.modalController.componentOnReady();
+
+    let modal = await this.modalController.create({
+      component: 'upload-image-modal'
+    });
+
+    await modal.present();
+
+  }
+
   render() {
     return [
       <ion-header>
         <ion-toolbar color="primary">
-          <ion-title>Home</ion-title>
+          <ion-title>Teste</ion-title>
         </ion-toolbar>
       </ion-header>,
+      <ion-split-pane contentId="menu-content">
 
+        <ion-menu side="start" menuId="first">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>Start Menu</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-list>
+              <ion-item>Menu Item</ion-item>
+              <ion-item>Menu Item</ion-item>
+              <ion-item>Menu Item</ion-item>
+              <ion-item>Menu Item</ion-item>
+              <ion-item>Menu Item</ion-item>
+            </ion-list>
+          </ion-content>
+        </ion-menu>
+
+        <ion-router-outlet id="menu-content">teste</ion-router-outlet>
+      </ion-split-pane>,
       <ion-content padding>
-        <p>
-          Welcome to the PWA Toolkit. You can use this starter to build entire
-          apps with web components using Stencil and ionic/core! Check out the
-          README for everything that comes in this starter out of the box and
-          check out our docs on <a href="https://stenciljs.com">stenciljs.com</a> to get started.
-        </p>
-
-        <ion-button href="/profile/ionic" expand="block">Profile page</ion-button>
-      </ion-content>
+        <ion-button onClick={() => this.handleEditarImagem()}>Editar</ion-button>
+      </ion-content>,
+      <ion-modal-controller ref={e => this.modalController = e as any}></ion-modal-controller>
     ];
   }
 }

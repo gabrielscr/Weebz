@@ -16,6 +16,9 @@ export namespace Components {
   interface AppHome {}
   interface AppHomeAttributes extends StencilHTMLAttributes {}
 
+  interface UploadImageModal {}
+  interface UploadImageModalAttributes extends StencilHTMLAttributes {}
+
   interface AppProfile {
     'name': string;
   }
@@ -30,12 +33,14 @@ export namespace Components {
 declare global {
   interface StencilElementInterfaces {
     'AppHome': Components.AppHome;
+    'UploadImageModal': Components.UploadImageModal;
     'AppProfile': Components.AppProfile;
     'AppRoot': Components.AppRoot;
   }
 
   interface StencilIntrinsicElements {
     'app-home': Components.AppHomeAttributes;
+    'upload-image-modal': Components.UploadImageModalAttributes;
     'app-profile': Components.AppProfileAttributes;
     'app-root': Components.AppRootAttributes;
   }
@@ -45,6 +50,12 @@ declare global {
   var HTMLAppHomeElement: {
     prototype: HTMLAppHomeElement;
     new (): HTMLAppHomeElement;
+  };
+
+  interface HTMLUploadImageModalElement extends Components.UploadImageModal, HTMLStencilElement {}
+  var HTMLUploadImageModalElement: {
+    prototype: HTMLUploadImageModalElement;
+    new (): HTMLUploadImageModalElement;
   };
 
   interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {}
@@ -61,12 +72,14 @@ declare global {
 
   interface HTMLElementTagNameMap {
     'app-home': HTMLAppHomeElement
+    'upload-image-modal': HTMLUploadImageModalElement
     'app-profile': HTMLAppProfileElement
     'app-root': HTMLAppRootElement
   }
 
   interface ElementTagNameMap {
     'app-home': HTMLAppHomeElement;
+    'upload-image-modal': HTMLUploadImageModalElement;
     'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
   }

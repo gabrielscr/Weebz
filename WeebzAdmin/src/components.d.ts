@@ -13,15 +13,17 @@ import 'ionicons';
 
 export namespace Components {
 
-  interface AppHome {
-    'urlImagem': any;
-  }
-  interface AppHomeAttributes extends StencilHTMLAttributes {
-    'urlImagem'?: any;
-  }
+  interface AppHome {}
+  interface AppHomeAttributes extends StencilHTMLAttributes {}
 
-  interface UploadImageModal {}
-  interface UploadImageModalAttributes extends StencilHTMLAttributes {}
+  interface UploadImageModal {
+    'buttonColor': string;
+    'headerColor': string;
+  }
+  interface UploadImageModalAttributes extends StencilHTMLAttributes {
+    'buttonColor'?: string;
+    'headerColor'?: string;
+  }
 
   interface AppProfile {
     'name': string;

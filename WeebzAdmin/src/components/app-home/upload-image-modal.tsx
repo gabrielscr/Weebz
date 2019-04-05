@@ -1,9 +1,9 @@
-import { Component } from '@stencil/core';
+import { Component, Prop } from '@stencil/core';
 import Croppie from 'croppie';
 
 @Component({
   tag: 'upload-image-modal',
-  styleUrl: 'app-home.css'
+  styleUrl: 'upload-image-modal.css'
 })
 export class UploadImageModal {
 
@@ -14,6 +14,10 @@ export class UploadImageModal {
   resultadoFinal: any;
 
   cropElement: HTMLElement;
+
+  @Prop() headerColor: string;
+
+  @Prop() buttonColor: string;
 
   componentDidLoad() {
     this.crop = new Croppie(this.cropElement, {
@@ -79,10 +83,14 @@ export class UploadImageModal {
     this.crop.rotate(-90);
   }
 
+  handleInverterButton() {
+    this.crop.rotate(-180);
+  }
+
   render() {
     return [
       <ion-header>
-        <ion-toolbar color='dark'>
+        <ion-toolbar color={this.headerColor}>
           <ion-title>Editar Imagem</ion-title>
           <ion-buttons slot="start">
             <ion-button onClick={() => this.voltar()}>
@@ -96,24 +104,36 @@ export class UploadImageModal {
           </ion-buttons>
         </ion-toolbar>
       </ion-header>,
-      <ion-content class="teste">
+      <ion-content>
+        <div class="container" ref={e => this.cropElement = e}>
+        </div>
         <ion-grid>
           <ion-row>
             <ion-col text-center>
-              <ion-button onClick={() => this.handleLeftRotationButton()} class="vanilla-rotate" data-deg="-90" color="dark" fill="outline">
-                Girar -90º
+              <ion-item>
+                <label htmlFor="selecao-arquivo">UPLOAD</label>
+                <input id="selecao-arquivo" type="file" onChange={(event) => this.handleUploadImage(event)} />
+              </ion-item>
+            </ion-col>
+            <ion-col text-center>
+              <ion-button onClick={() => this.handleLeftRotationButton()} color={this.buttonColor} fill="clear">
+                <ion-icon name="return-left"></ion-icon>
               </ion-button>
-              <ion-button onClick={() => this.handleRightRotationButton()} class="vanilla-rotate" data-deg="90" color="dark" fill="outline">
-                Girar 90º
+            </ion-col>
+              <ion-col text-center>
+              <ion-button onClick={() => this.handleRightRotationButton()} color={this.buttonColor} fill="clear">
+                <ion-icon name="return-right"></ion-icon>
+                </ion-button>
+            </ion-col>
+            <ion-col text-center>
+              <ion-button onClick={() => this.handleInverterButton()} color={this.buttonColor} fill="clear">
+                <ion-icon name="redo"></ion-icon>
               </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
-        <div class="container" ref={e => this.cropElement = e}>
-        </div>
-        <input class="input-upload" type="file" onChange={(event) => this.handleUploadImage(event)} />
       </ion-content>,
-      <ion-modal-controller ref={e => this.modalController = e as any}></ion-modal-controller>,
+      <ion-modal-controller ref={e => this.modalController = e as any}></ion-modal-controller>
     ]
   }
 }

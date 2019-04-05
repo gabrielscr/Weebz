@@ -13,8 +13,12 @@ import 'ionicons';
 
 export namespace Components {
 
-  interface AppHome {}
-  interface AppHomeAttributes extends StencilHTMLAttributes {}
+  interface AppHome {
+    'urlImagem': any;
+  }
+  interface AppHomeAttributes extends StencilHTMLAttributes {
+    'urlImagem'?: any;
+  }
 
   interface UploadImageModal {}
   interface UploadImageModalAttributes extends StencilHTMLAttributes {}

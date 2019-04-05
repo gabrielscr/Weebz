@@ -16,3 +16,15 @@ body {
 #upload-image {
   max-width: 300px;
 }
+
+.container {
+  width: 100%;
+}
+
+.input-upload{
+  border-radius:5px;
+}
+
+.teste{
+  max-height:150px
+}

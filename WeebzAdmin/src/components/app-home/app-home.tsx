@@ -1,4 +1,4 @@
-import { Component } from '@stencil/core';
+import { Component, Prop } from '@stencil/core';
 
 @Component({
   tag: 'app-home',
@@ -8,7 +8,7 @@ export class AppHome {
 
   modalController: HTMLIonModalControllerElement;
 
-  urlImagem: any;
+  @Prop() urlImagem
 
   async handleEditarImagem() {
 
@@ -26,14 +26,14 @@ export class AppHome {
   render() {
     return [
       <ion-header>
-        <ion-toolbar color="danger">
+        <ion-toolbar color="dark">
           <ion-title>Teste</ion-title>
         </ion-toolbar>
       </ion-header>,
       <ion-content padding>
-        <ion-button onClick={() => this.handleEditarImagem()} color="danger">Editar</ion-button>
+        <ion-button onClick={() => this.handleEditarImagem()} color="dark" fill="outline">Editar</ion-button>
       </ion-content>,
-      <ion-modal-controller ref={e => this.modalController = e as any}></ion-modal-controller>
+      <ion-modal-controller class="teste" ref={e => this.modalController = e as any}></ion-modal-controller>
     ];
   }
 }

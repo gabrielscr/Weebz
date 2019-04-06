@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.Domain.Admin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,11 @@ namespace Server.Features.Domain.Admin
     {
         public int Id { get; set; }
 
+        public string Titulo { get; set; }
+
         public string Descricao { get; set; }
+
+        public string EspecificacoesTecnicas { get; set; }
 
         public double Valor { get; set; }
 
@@ -18,6 +23,8 @@ namespace Server.Features.Domain.Admin
 
         public DateTimeOffset DataCadastro { get; set; }
 
+        public bool? Ativo { get; set; }
 
+        public List<ProdutoMarcas> Marcas { get; set; }
     }
 }

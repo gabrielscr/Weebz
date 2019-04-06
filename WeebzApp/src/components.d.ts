@@ -17,6 +17,16 @@ export namespace Components {
   interface AppRoot {}
   interface AppRootAttributes extends StencilHTMLAttributes {}
 
+  interface MarcaInserirEditar {
+    'marcaId': number;
+  }
+  interface MarcaInserirEditarAttributes extends StencilHTMLAttributes {
+    'marcaId'?: number;
+  }
+
+  interface MarcaListar {}
+  interface MarcaListarAttributes extends StencilHTMLAttributes {}
+
   interface MenuPage {}
   interface MenuPageAttributes extends StencilHTMLAttributes {}
 
@@ -46,6 +56,8 @@ export namespace Components {
 declare global {
   interface StencilElementInterfaces {
     'AppRoot': Components.AppRoot;
+    'MarcaInserirEditar': Components.MarcaInserirEditar;
+    'MarcaListar': Components.MarcaListar;
     'MenuPage': Components.MenuPage;
     'ProdutoInserirEditar': Components.ProdutoInserirEditar;
     'ProdutoListar': Components.ProdutoListar;
@@ -54,6 +66,8 @@ declare global {
 
   interface StencilIntrinsicElements {
     'app-root': Components.AppRootAttributes;
+    'marca-inserir-editar': Components.MarcaInserirEditarAttributes;
+    'marca-listar': Components.MarcaListarAttributes;
     'menu-page': Components.MenuPageAttributes;
     'produto-inserir-editar': Components.ProdutoInserirEditarAttributes;
     'produto-listar': Components.ProdutoListarAttributes;
@@ -65,6 +79,18 @@ declare global {
   var HTMLAppRootElement: {
     prototype: HTMLAppRootElement;
     new (): HTMLAppRootElement;
+  };
+
+  interface HTMLMarcaInserirEditarElement extends Components.MarcaInserirEditar, HTMLStencilElement {}
+  var HTMLMarcaInserirEditarElement: {
+    prototype: HTMLMarcaInserirEditarElement;
+    new (): HTMLMarcaInserirEditarElement;
+  };
+
+  interface HTMLMarcaListarElement extends Components.MarcaListar, HTMLStencilElement {}
+  var HTMLMarcaListarElement: {
+    prototype: HTMLMarcaListarElement;
+    new (): HTMLMarcaListarElement;
   };
 
   interface HTMLMenuPageElement extends Components.MenuPage, HTMLStencilElement {}
@@ -93,6 +119,8 @@ declare global {
 
   interface HTMLElementTagNameMap {
     'app-root': HTMLAppRootElement
+    'marca-inserir-editar': HTMLMarcaInserirEditarElement
+    'marca-listar': HTMLMarcaListarElement
     'menu-page': HTMLMenuPageElement
     'produto-inserir-editar': HTMLProdutoInserirEditarElement
     'produto-listar': HTMLProdutoListarElement
@@ -101,6 +129,8 @@ declare global {
 
   interface ElementTagNameMap {
     'app-root': HTMLAppRootElement;
+    'marca-inserir-editar': HTMLMarcaInserirEditarElement;
+    'marca-listar': HTMLMarcaListarElement;
     'menu-page': HTMLMenuPageElement;
     'produto-inserir-editar': HTMLProdutoInserirEditarElement;
     'produto-listar': HTMLProdutoListarElement;

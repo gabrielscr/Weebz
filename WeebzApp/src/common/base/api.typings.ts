@@ -7,6 +7,37 @@
 //     quando o código for gerado novamente.
 // </auto-generated>
 //------------------------------------------------------------------------------
+module Api.Marca.Excluir {
+    export interface Command {
+        id: number;
+    }
+}
+
+module Api.Marca.InserirEditar {
+    export interface Command {
+        id?: number;
+        descricao?: string;
+    }
+
+    export interface Query {
+        id: number;
+    }
+}
+
+module Api.Marca.Listar {
+    export interface Dto {
+        marcas?: MarcaDto[];
+    }
+
+    export interface MarcaDto {
+        id: number;
+        descricao?: string;
+    }
+
+    export interface Query {
+    }
+}
+
 module Api.Produto.Excluir {
     export interface Command {
         id: number;
@@ -16,10 +47,20 @@ module Api.Produto.Excluir {
 module Api.Produto.InserirEditar {
     export interface Command {
         id?: number;
+        titulo?: string;
         descricao?: string;
+        especificacoesTecnicas?: string;
         valor: number;
         caminhoImagem?: string;
         nomeImagem?: string;
+        ativo?: boolean;
+        marcas?: MarcaDto[];
+    }
+
+    export interface MarcaDto {
+        id: number;
+        marcaId: number;
+        descricao?: string;
     }
 
     export interface Query {

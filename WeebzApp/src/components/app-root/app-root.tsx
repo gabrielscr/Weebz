@@ -17,6 +17,10 @@ export class AppRoot {
           <ion-route url="/produto/editar/:produtoId" component="produto-inserir-editar"></ion-route>,
           <ion-route url="/produto/listar" component="produto-listar"></ion-route>
 
+          <ion-route url="/marca/inserir" component="marca-inserir-editar"></ion-route>,
+          <ion-route url="/marca/editar/:marcaId" component="marca-inserir-editar"></ion-route>,
+          <ion-route url="/marca/listar" component="marca-listar"></ion-route>
+
         </ion-router>
 
         <menu-page></menu-page>

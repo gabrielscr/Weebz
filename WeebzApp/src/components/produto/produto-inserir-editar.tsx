@@ -2,6 +2,7 @@ import { Component, State, Prop, Element } from '@stencil/core';
 import { handleChange } from '../../common/base/handle-change';
 import Api from '../../common/base/api.typings';
 import produtoService from './produto-service';
+import marcaService from '../marca/marca-service';
 import routerService from '../../common/base/router-service';
 import imageService from '../../common/base/image-service';
 
@@ -36,13 +37,18 @@ export class ProdutoInserirEditar {
   }
 
   async load() {
+    let marcaTask = marcaService.listar();
+
     if (this.produtoId)
       this.state = await produtoService.obterParaEditar({ id: this.produtoId })
     else
       this.state = {
         id: await produtoService.getNextId(),
         descricao: '',
-        valor: 0
+        valor: 0,
+        ativo: false,
+        especificacoesTecnicas: '',
+        titulo: ''
       };
   }
 
@@ -68,7 +74,7 @@ export class ProdutoInserirEditar {
           return;
         }
 
-        await routerService.goBack('product-list');
+        await routerService.goBack('produto-listar');
       });
   }
 
@@ -101,25 +107,45 @@ export class ProdutoInserirEditar {
           </ion-item>
 
           <ion-item>
+            <ion-label position="floating">Título</ion-label>
+            <ion-input name="titulo" required maxlength={100} value={this.state.titulo} onIonChange={e => this.handleChange(e)} autofocus></ion-input>
+            <t-message name="titulo"></t-message>
+          </ion-item>
+
+          <ion-item>
             <ion-label position="floating">Descrição</ion-label>
-            <ion-input name="descricao" required maxlength={150} value={this.state.descricao} onIonChange={e => this.handleChange(e)} autofocus></ion-input>
+            <ion-textarea name="descricao" required maxlength={2000} value={this.state.descricao} onIonChange={e => this.handleChange(e)} autofocus></ion-textarea>
             <t-message name="descricao"></t-message>
           </ion-item>
 
           <ion-item>
+            <ion-label position="floating">Especificações Técnicas</ion-label>
+            <ion-textarea name="especificacoesTecnicas" required maxlength={5000} value={this.state.especificacoesTecnicas} onIonChange={e => this.handleChange(e)} autofocus></ion-textarea>
+            <t-message name="especificacoesTecnicas"></t-message>
+          </ion-item>
+
+          <ion-item>
             <ion-label position="floating">Valor</ion-label>
-            <ion-input name="valor" type="number" step="1" min="0" required value={this.state.valor as any} onIonChange={e => this.handleChange(e)}></ion-input>
+            <ion-input name="valor" type="number" step="1" min="1" required value={this.state.valor as any} onIonChange={e => this.handleChange(e)}></ion-input>
             <t-message name="valor"></t-message>
           </ion-item>
 
-          {this.state && this.state.caminhoImagem ?
-            <img class="t-image" src={imageService.getImageUrl(this.state.caminhoImagem)} >
-            </img>
-            : null}
+          <ion-item>
+            <ion-label>Ativo</ion-label>
+            <ion-toggle value={this.state.ativo as any} onIonChange={e => this.handleChange(e)}></ion-toggle>
+           </ion-item>
 
           <ion-item>
             <ion-label>Upload image</ion-label>
             <input type="file" accept="image/jpeg, image/jpg, image/png" onChange={e => this.handleImageChange(e)} />
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label>Foto do produto</ion-label>
+            {this.state && this.state.caminhoImagem ?
+              <img class="t-image" src={imageService.getImageUrl(this.state.caminhoImagem)} >
+              </img>
+              : null}
           </ion-item>
 
         </ion-list>
@@ -140,7 +166,7 @@ export class ProdutoInserirEditar {
 
           <ion-buttons slot="end">
             <ion-button onClick={e => this.confirmar(e)} disabled={!this.state}>
-              Confirm
+              Confirmar
             </ion-button>
           </ion-buttons>
         </ion-toolbar>

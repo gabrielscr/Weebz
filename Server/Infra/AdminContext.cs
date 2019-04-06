@@ -24,6 +24,13 @@ namespace Server.Infra
 
                 opts.HasIndex(p => p.Descricao).IsUnique();
             });
+
+            modelBuilder.Entity<Marca>(opts =>
+            {
+                opts.Property(p => p.Id).ValueGeneratedNever();
+
+                opts.HasIndex(p => p.Descricao).IsUnique();
+            });
         }
     }
 }

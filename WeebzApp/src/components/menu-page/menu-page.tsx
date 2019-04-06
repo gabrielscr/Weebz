@@ -28,7 +28,7 @@ export class MenuPage {
                 <ion-item href="#/produto/listar" class="menu-item" routerDirection="root">
                   <ion-icon name="cube" slot="start"></ion-icon> Produtos
                 </ion-item>
-                <ion-item href="#/quote/list" class="menu-item" routerDirection="root">
+                <ion-item href="#/marca/listar" class="menu-item" routerDirection="root">
                   <ion-icon name="pricetag" slot="start"></ion-icon> Marcas
                 </ion-item>
                 <ion-item href="#/quote/list" class="menu-item" routerDirection="root">

@@ -3,42 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Infra;
 
 namespace Server.Migrations
 {
     [DbContext(typeof(AdminContext))]
-    partial class AdminContextModelSnapshot : ModelSnapshot
+    [Migration("20190406215925_AddMarca")]
+    partial class AddMarca
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Server.Domain.Admin.ProdutoMarcas", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Descricao");
-
-                    b.Property<int>("MarcaId");
-
-                    b.Property<int>("ProdutoId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MarcaId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("ProdutoMarcas");
-                });
 
             modelBuilder.Entity("Server.Features.Domain.Admin.Marca", b =>
                 {
@@ -82,19 +63,6 @@ namespace Server.Migrations
                         .HasFilter("[Descricao] IS NOT NULL");
 
                     b.ToTable("Produto");
-                });
-
-            modelBuilder.Entity("Server.Domain.Admin.ProdutoMarcas", b =>
-                {
-                    b.HasOne("Server.Features.Domain.Admin.Marca", "Marca")
-                        .WithMany()
-                        .HasForeignKey("MarcaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Server.Features.Domain.Admin.Produto")
-                        .WithMany("Marcas")
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

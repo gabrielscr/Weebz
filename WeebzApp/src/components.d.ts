@@ -9,49 +9,57 @@ import '@stencil/core';
 
 import '@ionic/core';
 import 'ionicons';
+import '@tempusdigital/ionic';
 
 
 export namespace Components {
 
-  interface AppHome {}
-  interface AppHomeAttributes extends StencilHTMLAttributes {}
-
-  interface AppProfile {
-    'name': string;
-  }
-  interface AppProfileAttributes extends StencilHTMLAttributes {
-    'name'?: string;
-  }
-
   interface AppRoot {}
   interface AppRootAttributes extends StencilHTMLAttributes {}
+
+  interface MenuPage {}
+  interface MenuPageAttributes extends StencilHTMLAttributes {}
+
+  interface ProdutoInserirEditar {
+    'produtoId': number;
+  }
+  interface ProdutoInserirEditarAttributes extends StencilHTMLAttributes {
+    'produtoId'?: number;
+  }
+
+  interface ProdutoListar {}
+  interface ProdutoListarAttributes extends StencilHTMLAttributes {}
+
+  interface ToastComponent {
+    'color': string;
+    'duration': number;
+    'message': string;
+    'show': () => Promise<void>;
+  }
+  interface ToastComponentAttributes extends StencilHTMLAttributes {
+    'color'?: string;
+    'duration'?: number;
+    'message'?: string;
+  }
 }
 
 declare global {
   interface StencilElementInterfaces {
-    'AppHome': Components.AppHome;
-    'AppProfile': Components.AppProfile;
     'AppRoot': Components.AppRoot;
+    'MenuPage': Components.MenuPage;
+    'ProdutoInserirEditar': Components.ProdutoInserirEditar;
+    'ProdutoListar': Components.ProdutoListar;
+    'ToastComponent': Components.ToastComponent;
   }
 
   interface StencilIntrinsicElements {
-    'app-home': Components.AppHomeAttributes;
-    'app-profile': Components.AppProfileAttributes;
     'app-root': Components.AppRootAttributes;
+    'menu-page': Components.MenuPageAttributes;
+    'produto-inserir-editar': Components.ProdutoInserirEditarAttributes;
+    'produto-listar': Components.ProdutoListarAttributes;
+    'toast-component': Components.ToastComponentAttributes;
   }
 
-
-  interface HTMLAppHomeElement extends Components.AppHome, HTMLStencilElement {}
-  var HTMLAppHomeElement: {
-    prototype: HTMLAppHomeElement;
-    new (): HTMLAppHomeElement;
-  };
-
-  interface HTMLAppProfileElement extends Components.AppProfile, HTMLStencilElement {}
-  var HTMLAppProfileElement: {
-    prototype: HTMLAppProfileElement;
-    new (): HTMLAppProfileElement;
-  };
 
   interface HTMLAppRootElement extends Components.AppRoot, HTMLStencilElement {}
   var HTMLAppRootElement: {
@@ -59,16 +67,44 @@ declare global {
     new (): HTMLAppRootElement;
   };
 
+  interface HTMLMenuPageElement extends Components.MenuPage, HTMLStencilElement {}
+  var HTMLMenuPageElement: {
+    prototype: HTMLMenuPageElement;
+    new (): HTMLMenuPageElement;
+  };
+
+  interface HTMLProdutoInserirEditarElement extends Components.ProdutoInserirEditar, HTMLStencilElement {}
+  var HTMLProdutoInserirEditarElement: {
+    prototype: HTMLProdutoInserirEditarElement;
+    new (): HTMLProdutoInserirEditarElement;
+  };
+
+  interface HTMLProdutoListarElement extends Components.ProdutoListar, HTMLStencilElement {}
+  var HTMLProdutoListarElement: {
+    prototype: HTMLProdutoListarElement;
+    new (): HTMLProdutoListarElement;
+  };
+
+  interface HTMLToastComponentElement extends Components.ToastComponent, HTMLStencilElement {}
+  var HTMLToastComponentElement: {
+    prototype: HTMLToastComponentElement;
+    new (): HTMLToastComponentElement;
+  };
+
   interface HTMLElementTagNameMap {
-    'app-home': HTMLAppHomeElement
-    'app-profile': HTMLAppProfileElement
     'app-root': HTMLAppRootElement
+    'menu-page': HTMLMenuPageElement
+    'produto-inserir-editar': HTMLProdutoInserirEditarElement
+    'produto-listar': HTMLProdutoListarElement
+    'toast-component': HTMLToastComponentElement
   }
 
   interface ElementTagNameMap {
-    'app-home': HTMLAppHomeElement;
-    'app-profile': HTMLAppProfileElement;
     'app-root': HTMLAppRootElement;
+    'menu-page': HTMLMenuPageElement;
+    'produto-inserir-editar': HTMLProdutoInserirEditarElement;
+    'produto-listar': HTMLProdutoListarElement;
+    'toast-component': HTMLToastComponentElement;
   }
 
 

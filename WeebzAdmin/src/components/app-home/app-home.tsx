@@ -33,6 +33,24 @@ export class AppHome {
           <ion-title>Teste</ion-title>
         </ion-toolbar>
       </ion-header>,
+      <ion-content>
+        <ion-menu side="start" menuId="first">
+          <ion-header>
+            <ion-toolbar color="primary">
+              <ion-title>Start Menu</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content>
+            <ion-list>
+              <ion-item>Menu Item</ion-item>
+              <ion-item>Menu Item</ion-item>
+              <ion-item>Menu Item</ion-item>
+              <ion-item>Menu Item</ion-item>
+              <ion-item>Menu Item</ion-item>
+            </ion-list>
+          </ion-content>
+        </ion-menu>
+      </ion-content>,
       <ion-content padding>
         <ion-list>
           <img id="cropped-image" src={this.urlImagem} />

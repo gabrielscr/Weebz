@@ -1,22 +1,31 @@
 {
-  "name": "weebzapp",
+  "name": "weebz-admin-app",
   "private": true,
   "version": "0.0.1",
-  "description": "weebzapp",
-  "license": "MIT",
+  "description": "Weebz AdminApp",
   "files": [
     "dist/"
   ],
   "scripts": {
-    "build": "stencil build",
-    "start": "stencil build --dev --watch --serve",
-    "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watch"
+    "build": "npm run copy-common.build & npm run env.prod & stencil build",
+    "start": "npm run copy-common.watch | (npm run env.dev & stencil build --dev --watch --serve)",
+    "start-prod": "npm run env.prod & stencil build --prod --es5 --watch --serve",
+    "env.dev": "node ./src/env/env-dev-task.js",
+    "env.prod": "node ./src/env/env-prod-task.js",
+    "copy-common.build": "cpx ../Weebz.Common/src/**/* src/common",
+    "copy-common.watch": "cpx ../Weebz.Common/src/**/* src/common --watch --clean"
   },
   "dependencies": {
-    "@ionic/core": "4.0.0"
+    "@ionic/core": "4.0.2",
+    "@tempusdigital/ionic": "1.0.0-beta.2-13",
+    "aurelia-fetch-client": "1.3.1",
+    "choices.js": "3.0.4",
+    "node-polyglot": "2.3.0"
   },
   "devDependencies": {
-    "@stencil/core": "0.17.0"
+    "@stencil/core": "0.18.0",
+    "@stencil/sass": "0.1.1",
+    "cpx": "1.5.0",
+    "workbox-build": "3.4.1"
   }
 }

@@ -1,0 +1,17 @@
+my-app {
+  .menu-item {
+  }
+
+  .menu-item .active {
+    color: blue;
+  }
+
+  .menu-item:hover {
+    background-color: #eee;
+  }
+}
+
+ion-item > a ion-button {
+  // Evita que botões dentro de um ion-item com href especificado fiquem abaixo do efeito ripple e inacessíveis
+  z-index: 2;
+}

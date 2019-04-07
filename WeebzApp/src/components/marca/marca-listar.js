@@ -5,13 +5,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { Component, State, Listen } from '@stencil/core';
-import produtoService from './produto-service';
-let ProdutoListar = class ProdutoListar {
+import marcaService from './marca-service';
+let MarcaListar = class MarcaListar {
     ionViewWillEnter() {
         this.load();
     }
     async load() {
-        this.state = await produtoService.listar();
+        this.state = await marcaService.listar();
     }
     async delete(e, id, name) {
         e.preventDefault();
@@ -19,7 +19,7 @@ let ProdutoListar = class ProdutoListar {
         e.stopPropagation();
         if (confirm('Você deseja mesmo deletar?')) {
             try {
-                await produtoService.excluir({ id });
+                await marcaService.excluir({ id });
             }
             catch (e) {
                 this.toastController.message = `${name} em uso. Não é possível deletar.`;
@@ -31,10 +31,10 @@ let ProdutoListar = class ProdutoListar {
     }
     insert() {
         const nav = document.querySelector('ion-nav');
-        nav.push('produto-inserir-editar');
+        nav.push('marca-inserir-editar');
     }
-    renderProduct(a) {
-        return (h("ion-item", { href: `/produto/editar/${a.id}` },
+    renderMarca(a) {
+        return (h("ion-item", { href: `/marca/editar/${a.id}` },
             h("ion-label", null, a.descricao),
             h("ion-button", { slot: "end", fill: "clear", onClick: e => this.delete(e, a.id, a.descricao) },
                 h("ion-icon", { color: "danger", name: "trash" }))));
@@ -47,12 +47,12 @@ let ProdutoListar = class ProdutoListar {
                         h("ion-menu-toggle", null,
                             h("ion-button", null,
                                 h("ion-icon", { slot: "icon-only", name: "menu" })))),
-                    h("ion-title", null, "Produtos"))),
+                    h("ion-title", null, "Marcas"))),
             h("ion-content", null,
                 h("t-container", null,
                     h("ion-list", { lines: "full", "data-list": true, "data-list-hover": true }, this.state
-                        ? this.state.products && this.state.products.length
-                            ? this.state.products.map(a => this.renderProduct(a))
+                        ? this.state.marcas && this.state.marcas.length
+                            ? this.state.marcas.map(a => this.renderMarca(a))
                             : h("p", null,
                                 h("center", null, "Nenhum item encontrado"))
                         : h("p", null,
@@ -67,13 +67,13 @@ let ProdutoListar = class ProdutoListar {
 };
 __decorate([
     State()
-], ProdutoListar.prototype, "state", void 0);
+], MarcaListar.prototype, "state", void 0);
 __decorate([
     Listen('ionViewWillEnter')
-], ProdutoListar.prototype, "ionViewWillEnter", null);
-ProdutoListar = __decorate([
+], MarcaListar.prototype, "ionViewWillEnter", null);
+MarcaListar = __decorate([
     Component({
-        tag: 'produto-listar'
+        tag: 'marca-listar'
     })
-], ProdutoListar);
-export { ProdutoListar };
+], MarcaListar);
+export { MarcaListar };

@@ -2,9 +2,9 @@ import { Component, State, Prop, Element } from '@stencil/core';
 import { handleChange } from '../../common/base/handle-change';
 import Api from '../../common/base/api.typings';
 import produtoService from './produto-service';
-import marcaService from '../marca/marca-service';
 import routerService from '../../common/base/router-service';
 import imageService from '../../common/base/image-service';
+import { IComboboxOption } from '@tempusdigital/ionic';
 
 @Component({
   tag: 'produto-inserir-editar',
@@ -27,6 +27,14 @@ export class ProdutoInserirEditar {
 
   nomeImagem: string;
 
+  @State() marcaOptions: IComboboxOption[];
+
+  loader: HTMLLoaderCustomizavelElement;
+
+  modalController: HTMLIonModalControllerElement;
+
+  @State() marcaDescricao: string;
+
 
   handleChange(e: Event) {
     handleChange(e, this, 'state');
@@ -37,10 +45,13 @@ export class ProdutoInserirEditar {
   }
 
   async load() {
-    let marcaTask = marcaService.listar();
 
-    if (this.produtoId)
+    if (this.produtoId) {
       this.state = await produtoService.obterParaEditar({ id: this.produtoId })
+
+      if (this.state.marcas)
+        this.marcaDescricao = this.state.marcas.descricao;
+    }
     else
       this.state = {
         id: await produtoService.getNextId(),
@@ -48,16 +59,17 @@ export class ProdutoInserirEditar {
         valor: 0,
         ativo: false,
         especificacoesTecnicas: '',
-        titulo: ''
+        titulo: '',
+        marcas: null
       };
+
   }
 
   async confirmar(e: Event) {
+    e.preventDefault();
 
     this.state.caminhoImagem = this.caminhoImagem;
     this.state.nomeImagem = this.nomeImagem;
-
-    e.preventDefault();
 
     await this.formController.componentOnReady();
     await this.formController.processSubmit(
@@ -76,6 +88,30 @@ export class ProdutoInserirEditar {
 
         await routerService.goBack('produto-listar');
       });
+  }
+
+  async exibirMarcas() {
+    await this.loader.show();
+
+    await this.modalController.componentOnReady();
+
+    let modal = await this.modalController.create({
+      component: 'marca-selecionar',
+      componentProps: { marcaSelecionada: this.state.marcas }
+    });
+
+    await this.loader.dismiss();
+
+    await modal.present();
+
+    await modal.onDidDismiss().then(detail => {
+      let data = detail.data;
+
+      if (data && data.data) {
+        this.state.marcas = data.data;
+        this.marcaDescricao = data.data.descricao;
+      }
+    });
   }
 
   handleImageChange(e) {
@@ -130,6 +166,12 @@ export class ProdutoInserirEditar {
             <t-message name="valor"></t-message>
           </ion-item>
 
+          <ion-item id="inputMarcaId" button onClick={() => this.exibirMarcas()}>
+            <ion-label position="floating">Marca</ion-label>
+            <ion-input value={this.marcaDescricao} readonly onIonChange={e => this.handleChange(e)}></ion-input>
+            <t-message name="marcas"></t-message>
+          </ion-item>
+
           <ion-item>
             <ion-label>Ativo</ion-label>
             <ion-toggle value={this.state.ativo as any} onIonChange={e => this.handleChange(e)}></ion-toggle>
@@ -147,6 +189,7 @@ export class ProdutoInserirEditar {
               </img>
               : null}
           </ion-item>
+          <br />
 
         </ion-list>
 

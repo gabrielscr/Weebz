@@ -13,7 +13,12 @@ let AppRoot = class AppRoot {
                 ",",
                 h("ion-route", { url: "/produto/editar/:produtoId", component: "produto-inserir-editar" }),
                 ",",
-                h("ion-route", { url: "/produto/listar", component: "produto-listar" })),
+                h("ion-route", { url: "/produto/listar", component: "produto-listar" }),
+                h("ion-route", { url: "/marca/inserir", component: "marca-inserir-editar" }),
+                ",",
+                h("ion-route", { url: "/marca/editar/:marcaId", component: "marca-inserir-editar" }),
+                ",",
+                h("ion-route", { url: "/marca/listar", component: "marca-listar" })),
             h("menu-page", null),
             h("ion-loading-controller", null),
             // Fix bundle of modal components on Stencil 1.0.0-beta.17

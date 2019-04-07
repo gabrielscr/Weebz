@@ -7,15 +7,37 @@
 
 import '@stencil/core';
 
+import '@tempusdigital/ionic';
 import '@ionic/core';
 import 'ionicons';
-import '@tempusdigital/ionic';
 
 
 export namespace Components {
 
   interface AppRoot {}
   interface AppRootAttributes extends StencilHTMLAttributes {}
+
+  interface LoaderCustomizavel {
+    'dismiss': () => Promise<void>;
+    'message': string;
+    'show': () => Promise<void>;
+    'spinner': string;
+  }
+  interface LoaderCustomizavelAttributes extends StencilHTMLAttributes {
+    'message'?: string;
+    'spinner'?: string;
+  }
+
+  interface SpinnerLoader {}
+  interface SpinnerLoaderAttributes extends StencilHTMLAttributes {}
+
+  interface ToastCustomizavel {
+    'message': string;
+    'showToast': () => Promise<void>;
+  }
+  interface ToastCustomizavelAttributes extends StencilHTMLAttributes {
+    'message'?: string;
+  }
 
   interface MarcaInserirEditar {
     'marcaId': number;
@@ -26,6 +48,13 @@ export namespace Components {
 
   interface MarcaListar {}
   interface MarcaListarAttributes extends StencilHTMLAttributes {}
+
+  interface MarcaSelecionar {
+    'marcaSelecionada': any;
+  }
+  interface MarcaSelecionarAttributes extends StencilHTMLAttributes {
+    'marcaSelecionada'?: any;
+  }
 
   interface MenuPage {}
   interface MenuPageAttributes extends StencilHTMLAttributes {}
@@ -56,8 +85,12 @@ export namespace Components {
 declare global {
   interface StencilElementInterfaces {
     'AppRoot': Components.AppRoot;
+    'LoaderCustomizavel': Components.LoaderCustomizavel;
+    'SpinnerLoader': Components.SpinnerLoader;
+    'ToastCustomizavel': Components.ToastCustomizavel;
     'MarcaInserirEditar': Components.MarcaInserirEditar;
     'MarcaListar': Components.MarcaListar;
+    'MarcaSelecionar': Components.MarcaSelecionar;
     'MenuPage': Components.MenuPage;
     'ProdutoInserirEditar': Components.ProdutoInserirEditar;
     'ProdutoListar': Components.ProdutoListar;
@@ -66,8 +99,12 @@ declare global {
 
   interface StencilIntrinsicElements {
     'app-root': Components.AppRootAttributes;
+    'loader-customizavel': Components.LoaderCustomizavelAttributes;
+    'spinner-loader': Components.SpinnerLoaderAttributes;
+    'toast-customizavel': Components.ToastCustomizavelAttributes;
     'marca-inserir-editar': Components.MarcaInserirEditarAttributes;
     'marca-listar': Components.MarcaListarAttributes;
+    'marca-selecionar': Components.MarcaSelecionarAttributes;
     'menu-page': Components.MenuPageAttributes;
     'produto-inserir-editar': Components.ProdutoInserirEditarAttributes;
     'produto-listar': Components.ProdutoListarAttributes;
@@ -81,6 +118,24 @@ declare global {
     new (): HTMLAppRootElement;
   };
 
+  interface HTMLLoaderCustomizavelElement extends Components.LoaderCustomizavel, HTMLStencilElement {}
+  var HTMLLoaderCustomizavelElement: {
+    prototype: HTMLLoaderCustomizavelElement;
+    new (): HTMLLoaderCustomizavelElement;
+  };
+
+  interface HTMLSpinnerLoaderElement extends Components.SpinnerLoader, HTMLStencilElement {}
+  var HTMLSpinnerLoaderElement: {
+    prototype: HTMLSpinnerLoaderElement;
+    new (): HTMLSpinnerLoaderElement;
+  };
+
+  interface HTMLToastCustomizavelElement extends Components.ToastCustomizavel, HTMLStencilElement {}
+  var HTMLToastCustomizavelElement: {
+    prototype: HTMLToastCustomizavelElement;
+    new (): HTMLToastCustomizavelElement;
+  };
+
   interface HTMLMarcaInserirEditarElement extends Components.MarcaInserirEditar, HTMLStencilElement {}
   var HTMLMarcaInserirEditarElement: {
     prototype: HTMLMarcaInserirEditarElement;
@@ -91,6 +146,12 @@ declare global {
   var HTMLMarcaListarElement: {
     prototype: HTMLMarcaListarElement;
     new (): HTMLMarcaListarElement;
+  };
+
+  interface HTMLMarcaSelecionarElement extends Components.MarcaSelecionar, HTMLStencilElement {}
+  var HTMLMarcaSelecionarElement: {
+    prototype: HTMLMarcaSelecionarElement;
+    new (): HTMLMarcaSelecionarElement;
   };
 
   interface HTMLMenuPageElement extends Components.MenuPage, HTMLStencilElement {}
@@ -119,8 +180,12 @@ declare global {
 
   interface HTMLElementTagNameMap {
     'app-root': HTMLAppRootElement
+    'loader-customizavel': HTMLLoaderCustomizavelElement
+    'spinner-loader': HTMLSpinnerLoaderElement
+    'toast-customizavel': HTMLToastCustomizavelElement
     'marca-inserir-editar': HTMLMarcaInserirEditarElement
     'marca-listar': HTMLMarcaListarElement
+    'marca-selecionar': HTMLMarcaSelecionarElement
     'menu-page': HTMLMenuPageElement
     'produto-inserir-editar': HTMLProdutoInserirEditarElement
     'produto-listar': HTMLProdutoListarElement
@@ -129,8 +194,12 @@ declare global {
 
   interface ElementTagNameMap {
     'app-root': HTMLAppRootElement;
+    'loader-customizavel': HTMLLoaderCustomizavelElement;
+    'spinner-loader': HTMLSpinnerLoaderElement;
+    'toast-customizavel': HTMLToastCustomizavelElement;
     'marca-inserir-editar': HTMLMarcaInserirEditarElement;
     'marca-listar': HTMLMarcaListarElement;
+    'marca-selecionar': HTMLMarcaSelecionarElement;
     'menu-page': HTMLMenuPageElement;
     'produto-inserir-editar': HTMLProdutoInserirEditarElement;
     'produto-listar': HTMLProdutoListarElement;

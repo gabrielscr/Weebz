@@ -10,7 +10,7 @@ using Server.Infra;
 namespace Server.Migrations
 {
     [DbContext(typeof(AdminContext))]
-    [Migration("20190406133711_Inicial")]
+    [Migration("20190407015438_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,13 +21,40 @@ namespace Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Server.Features.Domain.Admin.Produto", b =>
+            modelBuilder.Entity("Server.Features.Domain.Admin.Marca", b =>
                 {
                     b.Property<int>("Id");
 
                     b.Property<DateTimeOffset>("DataCadastro");
 
                     b.Property<string>("Descricao");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Descricao")
+                        .IsUnique()
+                        .HasFilter("[Descricao] IS NOT NULL");
+
+                    b.ToTable("Marca");
+                });
+
+            modelBuilder.Entity("Server.Features.Domain.Admin.Produto", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<bool?>("Ativo");
+
+                    b.Property<string>("CaminhoImagem");
+
+                    b.Property<DateTimeOffset>("DataCadastro");
+
+                    b.Property<string>("Descricao");
+
+                    b.Property<string>("EspecificacoesTecnicas");
+
+                    b.Property<int>("MarcaId");
+
+                    b.Property<string>("Titulo");
 
                     b.Property<double>("Valor");
 
@@ -37,7 +64,17 @@ namespace Server.Migrations
                         .IsUnique()
                         .HasFilter("[Descricao] IS NOT NULL");
 
+                    b.HasIndex("MarcaId");
+
                     b.ToTable("Produto");
+                });
+
+            modelBuilder.Entity("Server.Features.Domain.Admin.Produto", b =>
+                {
+                    b.HasOne("Server.Features.Domain.Admin.Marca", "Marca")
+                        .WithMany()
+                        .HasForeignKey("MarcaId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

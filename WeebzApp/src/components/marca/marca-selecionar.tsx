@@ -1,17 +1,18 @@
-import { Component, State, Listen, Prop } from '@stencil/core';
+import { Component, State, Prop, Listen } from '@stencil/core';
 import marcaService from './marca-service';
-import Api from '../../common/base/api.typings';
-
 
 @Component({
-  tag: 'marca-listar'
+  tag: 'marca-selecionar'
 })
-export class MarcaListar {
-  @State() marcas: Api.Marca.Listar.MarcaDto[];
+export class MarcaSelecionar {
+
+  @State() marcas: ListaMarcas[];
 
   @State() quantidadeRegistros: number = 20;
 
-  @Prop({ connect: 'ion-alert-controller' }) alertController: any;
+  @Prop() marcaSelecionada: any;
+
+  modalController: HTMLIonModalControllerElement;
 
   paginaAtual: number = 1;
 
@@ -42,7 +43,8 @@ export class MarcaListar {
       this.marcas =
         [{
           id: 1,
-          descricao: ''
+          descricao: '',
+          selecionado: false
         }];
 
       deletarPrimeiroItem = true;
@@ -50,61 +52,6 @@ export class MarcaListar {
 
     if (deletarPrimeiroItem)
       this.marcas.shift();
-  }
-
-  async excluir(e, id: number) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    e.stopPropagation();
-
-    await this.alertController.componentOnReady();
-
-    let alert = await this.alertController.create({
-      header: 'Excluir',
-      message: 'Esta ação não pode ser desfeita',
-      buttons: [
-        {
-          role: 'cancel',
-          text: 'Cancelar'
-        },
-        {
-          text: 'Confirmar',
-          handler: async () => {
-            await this.loader.show();
-            await marcaService.excluir({ id: id });
-            this.marcas = null;
-            await this.listarMarcas();
-            await this.loader.dismiss();
-          }
-        }]
-    });
-
-    await alert.present();
-  }
-
-  renderizarMarca(marca: Api.Marca.Listar.MarcaDto) {
-    return (
-      <ion-item button onClick={() => this.redirecionar(marca.id)}>
-        <ion-label>Descrição</ion-label>
-        <ion-button slot="end" fill="clear" onClick={e => this.excluir(e, marca.id)}>
-          <ion-icon color="danger" name="trash"></ion-icon>
-        </ion-button>
-      </ion-item>
-    );
-  }
-
-  renderizarMarcas() {
-    return (
-      this.marcas.map(e => this.renderizarMarca(e))
-    );
-  }
-
-  renderizarNenhumRegistroEncontrado() {
-    return (
-      <ion-item lines="none">
-        <ion-label text-center>Nenhum registro encontrado.</ion-label>
-      </ion-item>
-    );
   }
 
   async pesquisar(e) {
@@ -116,9 +63,55 @@ export class MarcaListar {
     await this.loader.dismiss();
   }
 
-  redirecionar(id?: number) {
-    let nav = document.querySelector('ion-nav');
-    nav.push('marca-inserir-editar', { marcaId: id });
+  handleMarcaSelecionada(marca: ListaMarcas) {
+    this.marcas.find(e => e.id == marca.id).selecionado = true;
+  }
+
+  verificarMarcaSelecionada(marca: ListaMarcas) {
+    if (this.marcaSelecionada) {
+      if (this.marcaSelecionada.id == marca.id)
+        return this.marcaSelecionada.selecionado;
+    } else
+      return false;
+  }
+
+  renderMarca(marca: ListaMarcas) {
+    return (
+      <ion-item>
+        <ion-label>{marca.descricao}</ion-label>
+        <ion-radio checked={this.verificarMarcaSelecionada(marca)} onClick={() => this.handleMarcaSelecionada(marca)}></ion-radio>
+      </ion-item>
+    )
+  }
+
+  renderMarcas() {
+    return [
+      <ion-radio-group allowEmptySelection={true}>
+        {this.marcas.map(marca => this.renderMarca(marca))}
+      </ion-radio-group>
+    ];
+  }
+
+  renderizarNenhumRegistroEncontrado() {
+    return (
+      <ion-item lines="none">
+        <ion-label text-center>Nenhum registro encontrado.</ion-label>
+      </ion-item>
+    );
+  }
+
+  async confirmar() {
+    let marcaSelecionada = this.marcas.find(e => e.selecionado);
+
+    await this.modalController.componentOnReady();
+    await this.modalController.dismiss({
+      data: marcaSelecionada
+    });
+  }
+
+  async fechar() {
+    await this.modalController.componentOnReady();
+    await this.modalController.dismiss();
   }
 
   async carregarDadosInfiniteScroll(e) {
@@ -146,10 +139,15 @@ export class MarcaListar {
   render() {
     return [
       <ion-header>
-        <ion-toolbar color="primary">
+        <ion-toolbar color='primary'>
           <ion-title>Marcas</ion-title>
           <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
+            <ion-button onClick={() => this.fechar()}>
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button onClick={() => this.confirmar()}>Confirmar</ion-button>
           </ion-buttons>
         </ion-toolbar>
         <ion-toolbar color="primary">
@@ -161,18 +159,14 @@ export class MarcaListar {
           {
             this.marcas ?
               this.marcas.length > 0 ?
-                this.renderizarMarcas() :
-                this.renderizarNenhumRegistroEncontrado() :
-              <spinner-loader></spinner-loader>
+                this.renderMarcas()
+                : this.renderizarNenhumRegistroEncontrado()
+              : <spinner-loader></spinner-loader>
           }
           {this.renderizarInfiniteScroll()}
         </ion-list>
-        <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button onClick={() => this.redirecionar()}>
-            <ion-icon name="add"></ion-icon>
-          </ion-fab-button>
-        </ion-fab>
       </ion-content>,
+      <ion-modal-controller ref={e => this.modalController = e as any}></ion-modal-controller>,
       <loader-customizavel
         ref={e => this.loader = e as any}
         message="Por favor, aguarde..."
@@ -180,4 +174,10 @@ export class MarcaListar {
       </loader-customizavel>
     ];
   }
+}
+
+interface ListaMarcas {
+  id: number;
+  descricao: string;
+  selecionado?: boolean;
 }

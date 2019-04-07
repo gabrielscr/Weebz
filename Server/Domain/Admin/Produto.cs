@@ -1,5 +1,4 @@
-﻿using Server.Domain.Admin;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +24,8 @@ namespace Server.Features.Domain.Admin
 
         public bool? Ativo { get; set; }
 
-        public List<ProdutoMarcas> Marcas { get; set; }
+        public int MarcaId { get; set; }
+
+        public Marca Marca { get; set; }
     }
 }

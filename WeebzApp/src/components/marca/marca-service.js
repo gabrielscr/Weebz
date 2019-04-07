@@ -1,22 +1,22 @@
 import { apiService } from '../../common/base/api-service';
-class ProdutoService {
+class MarcaService {
     listar(query) {
-        return apiService.get('api/Produto/Listar', query).then(r => r.json());
+        return apiService.get('api/Marca/Listar', query).then(r => r.json());
     }
     inserir(query) {
-        return apiService.post('api/Produto/Inserir', query).then(r => r.json());
+        return apiService.post('api/Marca/Inserir', query).then(r => r.json());
     }
     obterParaEditar(query) {
-        return apiService.get('api/Produto/Editar', query).then(r => r.json());
+        return apiService.get('api/Marca/Editar', query).then(r => r.json());
     }
     getNextId() {
-        return apiService.get('api/Produto/GetNextId').then(r => r.json());
+        return apiService.get('api/Marca/GetNextId').then(r => r.json());
     }
     editar(query) {
-        return apiService.put('api/Produto/Editar', query).then(r => r.json());
+        return apiService.put('api/Marca/Editar', query).then(r => r.json());
     }
     excluir(query) {
-        return apiService.delete('api/Produto/Excluir', query);
+        return apiService.delete('api/Marca/Excluir', query);
     }
 }
-export default new ProdutoService();
+export default new MarcaService();

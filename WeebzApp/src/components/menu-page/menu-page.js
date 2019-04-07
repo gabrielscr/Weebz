@@ -25,7 +25,7 @@ let MenuPage = class MenuPage {
                                 h("ion-item", { href: "#/produto/listar", class: "menu-item", routerDirection: "root" },
                                     h("ion-icon", { name: "cube", slot: "start" }),
                                     " Produtos"),
-                                h("ion-item", { href: "#/quote/list", class: "menu-item", routerDirection: "root" },
+                                h("ion-item", { href: "#/marca/listar", class: "menu-item", routerDirection: "root" },
                                     h("ion-icon", { name: "pricetag", slot: "start" }),
                                     " Marcas"),
                                 h("ion-item", { href: "#/quote/list", class: "menu-item", routerDirection: "root" },

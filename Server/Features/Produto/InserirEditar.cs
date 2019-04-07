@@ -13,7 +13,7 @@
     using Tempus.Utils;
     using System.IO;
     using Server.Infra.FileService;
-    using Server.Domain.Admin;
+    using Tempus.Linq;
 
     public class InserirEditar
     {
@@ -40,16 +40,16 @@
 
             public bool? Ativo { get; set; }
 
-            public MarcaDto[] Marcas { get; set; }
+            public MarcaDto Marcas { get; set; }
         }
 
         public class MarcaDto
         {
             public int Id { get; set; }
 
-            public int MarcaId { get; set; }
-
             public string Descricao { get; set; }
+
+            public bool Selecionado { get; set; }
         }
 
         public class Validation : AbstractValidator<Produto>
@@ -102,13 +102,12 @@
                         EspecificacoesTecnicas = a.EspecificacoesTecnicas,
                         Titulo = a.Titulo,
                         CaminhoImagem = a.CaminhoImagem,
-                        Marcas = a.Marcas
-                        .OrderBy(s => s.Descricao)
-                        .Select(s => new MarcaDto {
-                            Id = s.Id,
-                            MarcaId = s.MarcaId,
-                            Descricao = s.Descricao
-                        }).ToArray()
+                        Marcas = new MarcaDto
+                        {
+                            Id = a.Marca.Id,
+                            Descricao = a.Marca.Descricao,
+                            Selecionado = true
+                        }
                     })
                     .FirstOrDefaultAsync(p => p.Id == request.Id);
 
@@ -135,7 +134,6 @@
             {
                 var model = await _adminContext
                     .Set<Produto>()
-                    .Include(p => p.Marcas)
                     .FirstOrDefaultAsync(p => p.Id == request.Id);
 
                 if (model == null)
@@ -164,7 +162,8 @@
                 model.Ativo = request.Ativo;
                 model.DataCadastro = DateTimeOffset.Now;
 
-                MapMarcas(request, model);
+                if (request.Marcas != null)
+                    model.MarcaId = request.Marcas.Id;
 
                 await MapImage(request, model);
             }
@@ -178,23 +177,6 @@
 
                 if (!string.IsNullOrEmpty(request.CaminhoImagem) && !string.IsNullOrEmpty(request.NomeImagem))
                     model.CaminhoImagem = await _fileService.Save(request.CaminhoImagem, Path.Combine(Constants.PastaAnexos.Produtos, request.NomeImagem));
-            }
-
-            private void MapMarcas(Command request, Produto model)
-            {
-                if (model.Marcas == null)
-                    model.Marcas = new List<ProdutoMarcas>();
-
-                if (request.Marcas == null)
-                    request.Marcas = new MarcaDto[] { };
-
-                // Removes duplicates
-                request.Marcas = request.Marcas
-                    .Where(p => !string.IsNullOrWhiteSpace(p.Descricao) || p.MarcaId < 0)
-                    .GroupBy(p => p.Descricao.Trim().ToUpper())
-                    .Select(p => p.First())
-                    .ToArray();
-
             }
         }
     }

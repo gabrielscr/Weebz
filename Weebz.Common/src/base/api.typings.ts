@@ -60,7 +60,6 @@ module Api.Produto.InserirEditar {
     export interface MarcaDto {
         id: number;
         descricao?: string;
-        selecionado: boolean;
     }
 
     export interface Query {

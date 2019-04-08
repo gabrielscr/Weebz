@@ -54,13 +54,12 @@ module Api.Produto.InserirEditar {
         caminhoImagem?: string;
         nomeImagem?: string;
         ativo?: boolean;
-        marcas: MarcaDto;
+        marcas: MarcaDto[];
     }
 
     export interface MarcaDto {
         id: number;
         descricao?: string;
-        selecionado: boolean;
     }
 
     export interface Query {

@@ -2,8 +2,8 @@ import { apiService } from '../../common/base/api-service';
 import Api from '../../common/base/api.typings';
 
 class MarcaService {
-  async listar(data: Api.Marca.Listar.Query): Promise<Api.Marca.Listar.Dto[]> {
-    return apiService.get('api/Marca/Listar', data).then(e => e.json());
+  listar(query?: Api.Marca.Listar.Query): Promise<Api.Marca.Listar.Dto> {
+    return apiService.get('api/Marca/Listar', query).then(r => r.json());
   }
 
   inserir(query: Api.Marca.InserirEditar.Command): Promise<number> {

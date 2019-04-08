@@ -19,6 +19,16 @@ export class UploadImageModal {
 
   @Prop() buttonColor: string;
 
+  @Prop() buttonRotateLeftTitle: string;
+
+  @Prop() buttonRotateRightTitle: string;
+
+  @Prop() buttonInverseTitle: string;
+
+  @Prop() modalTitle: string;
+
+  @Prop() buttonConfirmTitle: string;
+
   componentDidLoad() {
     this.crop = new Croppie(this.cropElement, {
       enableExif: true,
@@ -31,7 +41,6 @@ export class UploadImageModal {
       boundary: {
         width: 250,
         height: 250,
-
       }
     });
 
@@ -91,7 +100,7 @@ export class UploadImageModal {
     return [
       <ion-header>
         <ion-toolbar color={this.headerColor}>
-          <ion-title>Editar Imagem</ion-title>
+          <ion-title>{this.modalTitle}</ion-title>
           <ion-buttons slot="start">
             <ion-button onClick={() => this.voltar()}>
               <ion-icon name="arrow-back"></ion-icon>
@@ -99,12 +108,13 @@ export class UploadImageModal {
           </ion-buttons>
           <ion-buttons slot="end" >
             <ion-button onClick={() => this.confirmar()} >
-              Confirmar
+              {this.buttonConfirmTitle}
             </ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>,
       <ion-content>
+        <br/>
         <div class="container" ref={e => this.cropElement = e}>
         </div>
         <ion-grid>
@@ -116,17 +126,17 @@ export class UploadImageModal {
               </ion-item>
             </ion-col>
             <ion-col text-center>
-              <ion-button onClick={() => this.handleLeftRotationButton()} color={this.buttonColor} fill="clear">
+              <ion-button title={this.buttonRotateLeftTitle} onClick={() => this.handleLeftRotationButton()} color={this.buttonColor} fill="clear">
                 <ion-icon name="return-left"></ion-icon>
               </ion-button>
             </ion-col>
               <ion-col text-center>
-              <ion-button onClick={() => this.handleRightRotationButton()} color={this.buttonColor} fill="clear">
+              <ion-button title={this.buttonRotateRightTitle} onClick={() => this.handleRightRotationButton()} color={this.buttonColor} fill="clear">
                 <ion-icon name="return-right"></ion-icon>
                 </ion-button>
             </ion-col>
             <ion-col text-center>
-              <ion-button onClick={() => this.handleInverterButton()} color={this.buttonColor} fill="clear">
+              <ion-button title={this.buttonInverseTitle} onClick={() => this.handleInverterButton()} color={this.buttonColor} fill="clear">
                 <ion-icon name="redo"></ion-icon>
               </ion-button>
             </ion-col>

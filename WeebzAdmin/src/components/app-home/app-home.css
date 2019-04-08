@@ -5,7 +5,8 @@
 
 .upload-image-modal .modal-wrapper {
   overflow-y: auto !important;
-  width: 500px;
+  width: 400px;
+  height:450px;
   background: #7f7f7f
 }
 

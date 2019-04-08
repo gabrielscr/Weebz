@@ -18,11 +18,21 @@ export namespace Components {
 
   interface UploadImageModal {
     'buttonColor': string;
+    'buttonConfirmTitle': string;
+    'buttonInverseTitle': string;
+    'buttonRotateLeftTitle': string;
+    'buttonRotateRightTitle': string;
     'headerColor': string;
+    'modalTitle': string;
   }
   interface UploadImageModalAttributes extends StencilHTMLAttributes {
     'buttonColor'?: string;
+    'buttonConfirmTitle'?: string;
+    'buttonInverseTitle'?: string;
+    'buttonRotateLeftTitle'?: string;
+    'buttonRotateRightTitle'?: string;
     'headerColor'?: string;
+    'modalTitle'?: string;
   }
 
   interface AppProfile {

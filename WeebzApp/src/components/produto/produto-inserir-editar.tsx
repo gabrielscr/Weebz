@@ -22,41 +22,77 @@ export class ProdutoInserirEditar {
 
   formController: HTMLTFormControllerElement;
 
+  loader: HTMLLoaderCustomizavelElement;
+
+  modalController: HTMLIonModalControllerElement;
+
   caminhoImagem: string;
 
   nomeImagem: string;
+
+  @State() marcaDescricao: string;
 
   handleChange(e: Event) {
     handleChange(e, this, 'state');
   }
 
-  componentWillLoad() {
-    this.load();
+  handleAtivoChange(e) {
+    this.state.ativo = e.target.checked;
+  }
+
+  async componentWillLoad() {
+    await this.load();
   }
 
   async load() {
 
-    if (this.produtoId)
+    if (this.produtoId) {
       this.state = await produtoService.obterParaEditar({ id: this.produtoId })
+      this.marcaDescricao = this.state.marcas.descricao;
+    }
 
     else
       this.state = {
         id: await produtoService.getNextId(),
         descricao: '',
         valor: 0,
-        ativo: false,
+        ativo: null,
         especificacoesTecnicas: '',
         titulo: '',
         marcas: null
       };
+  }
 
+  async exibirMarcas() {
+    await this.loader.show();
+
+    await this.modalController.componentOnReady();
+
+    let modal = await this.modalController.create({
+      component: 'marca-selecionar',
+      componentProps: { marcaSelecionada: this.state.marcas }
+    });
+
+    await this.loader.dismiss();
+
+    await modal.present();
+
+    await modal.onDidDismiss().then(detail => {
+      let data = detail.data;
+
+      if (data && data.data) {
+        this.state.marcas = data.data;
+        this.marcaDescricao = data.data.descricao;
+      }
+    });
   }
 
   async confirmar(e: Event) {
-    e.preventDefault();
-
+    
     this.state.caminhoImagem = this.caminhoImagem;
     this.state.nomeImagem = this.nomeImagem;
+
+    e.preventDefault();
 
     await this.formController.componentOnReady();
     await this.formController.processSubmit(
@@ -129,18 +165,14 @@ export class ProdutoInserirEditar {
             <t-message name="valor"></t-message>
           </ion-item>
 
-          <ion-item>
-            <ion-label>Pets</ion-label>
-            <ion-select>
-              {this.state.marcas.filter(r => (
-                <ion-select-option value={r.id}>{r.descricao}</ion-select-option>
-                ))}
-            </ion-select>
+          <ion-item id="inputMarcaId" button onClick={() => this.exibirMarcas()} >
+            <ion-label position="floating">Marca</ion-label>
+            <ion-input value={this.marcaDescricao} readonly onIonChange={e => this.handleChange(e)}></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-label>Ativo</ion-label>
-            <ion-toggle value={this.state.ativo as any} onIonChange={e => this.handleChange(e)}></ion-toggle>
+            <ion-toggle value={this.state.ativo as any} onIonChange={e => this.handleAtivoChange(e)}></ion-toggle>
           </ion-item>
 
           <ion-item>
@@ -156,9 +188,7 @@ export class ProdutoInserirEditar {
               : null}
           </ion-item>
           <br />
-
         </ion-list>
-
       </form>
     );
   }
@@ -187,7 +217,8 @@ export class ProdutoInserirEditar {
             ? this.renderForm()
             : <center><ion-spinner name="dots"></ion-spinner></center>}
         </t-container>
-      </ion-content>
+      </ion-content>,
+      <ion-modal-controller ref={e => this.modalController = e as any}></ion-modal-controller>
     ];
   }
 }

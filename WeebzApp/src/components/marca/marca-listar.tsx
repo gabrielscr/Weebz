@@ -12,11 +12,20 @@ export class MarcaListar {
 
   @Listen('ionViewWillEnter')
   ionViewWillEnter() {
+    this.state = null;
     this.load();
   }
 
   async load() {
     this.state = await marcaService.listar();
+
+    if (!this.state.marcas) {
+      this.state.marcas =
+        [{
+          id: 1,
+          descricao: ''
+        }];
+    }
   }
 
   async delete(e: UIEvent, id: number, name: string) {

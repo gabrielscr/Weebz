@@ -7,9 +7,9 @@
 
 import '@stencil/core';
 
-import '@tempusdigital/ionic';
 import '@ionic/core';
 import 'ionicons';
+import '@tempusdigital/ionic';
 
 
 export namespace Components {
@@ -49,6 +49,13 @@ export namespace Components {
   interface MarcaListar {}
   interface MarcaListarAttributes extends StencilHTMLAttributes {}
 
+  interface MarcaSelecionar {
+    'marcaSelecionada': any;
+  }
+  interface MarcaSelecionarAttributes extends StencilHTMLAttributes {
+    'marcaSelecionada'?: any;
+  }
+
   interface MenuPage {}
   interface MenuPageAttributes extends StencilHTMLAttributes {}
 
@@ -83,6 +90,7 @@ declare global {
     'ToastCustomizavel': Components.ToastCustomizavel;
     'MarcaInserirEditar': Components.MarcaInserirEditar;
     'MarcaListar': Components.MarcaListar;
+    'MarcaSelecionar': Components.MarcaSelecionar;
     'MenuPage': Components.MenuPage;
     'ProdutoInserirEditar': Components.ProdutoInserirEditar;
     'ProdutoListar': Components.ProdutoListar;
@@ -96,6 +104,7 @@ declare global {
     'toast-customizavel': Components.ToastCustomizavelAttributes;
     'marca-inserir-editar': Components.MarcaInserirEditarAttributes;
     'marca-listar': Components.MarcaListarAttributes;
+    'marca-selecionar': Components.MarcaSelecionarAttributes;
     'menu-page': Components.MenuPageAttributes;
     'produto-inserir-editar': Components.ProdutoInserirEditarAttributes;
     'produto-listar': Components.ProdutoListarAttributes;
@@ -139,6 +148,12 @@ declare global {
     new (): HTMLMarcaListarElement;
   };
 
+  interface HTMLMarcaSelecionarElement extends Components.MarcaSelecionar, HTMLStencilElement {}
+  var HTMLMarcaSelecionarElement: {
+    prototype: HTMLMarcaSelecionarElement;
+    new (): HTMLMarcaSelecionarElement;
+  };
+
   interface HTMLMenuPageElement extends Components.MenuPage, HTMLStencilElement {}
   var HTMLMenuPageElement: {
     prototype: HTMLMenuPageElement;
@@ -170,6 +185,7 @@ declare global {
     'toast-customizavel': HTMLToastCustomizavelElement
     'marca-inserir-editar': HTMLMarcaInserirEditarElement
     'marca-listar': HTMLMarcaListarElement
+    'marca-selecionar': HTMLMarcaSelecionarElement
     'menu-page': HTMLMenuPageElement
     'produto-inserir-editar': HTMLProdutoInserirEditarElement
     'produto-listar': HTMLProdutoListarElement
@@ -183,6 +199,7 @@ declare global {
     'toast-customizavel': HTMLToastCustomizavelElement;
     'marca-inserir-editar': HTMLMarcaInserirEditarElement;
     'marca-listar': HTMLMarcaListarElement;
+    'marca-selecionar': HTMLMarcaSelecionarElement;
     'menu-page': HTMLMenuPageElement;
     'produto-inserir-editar': HTMLProdutoInserirEditarElement;
     'produto-listar': HTMLProdutoListarElement;

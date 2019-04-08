@@ -48,6 +48,8 @@
             public int Id { get; set; }
 
             public string Descricao { get; set; }
+
+            public bool Selecionado { get; set; }
         }
 
         public class Validation : AbstractValidator<Produto>
@@ -103,7 +105,8 @@
                         Marcas = new MarcaDto
                         {
                             Id = a.Marca.Id,
-                            Descricao = a.Marca.Descricao
+                            Descricao = a.Marca.Descricao,
+                            Selecionado = true
                         }
                     })
                     .FirstOrDefaultAsync(p => p.Id == request.Id);

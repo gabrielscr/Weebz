@@ -16,7 +16,7 @@ module Api.Marca.Excluir {
 module Api.Marca.InserirEditar {
     export interface Command {
         id?: number;
-        descricao?: string;
+        descricao: string;
     }
 
     export interface Query {
@@ -31,7 +31,7 @@ module Api.Marca.Listar {
 
     export interface MarcaDto {
         id: number;
-        descricao?: string;
+        descricao: string;
     }
 
     export interface Query {
@@ -54,12 +54,13 @@ module Api.Produto.InserirEditar {
         caminhoImagem?: string;
         nomeImagem?: string;
         ativo?: boolean;
-        marcas: MarcaDto[];
+        marcas: MarcaDto;
     }
 
     export interface MarcaDto {
         id: number;
         descricao?: string;
+        selecionado: boolean;
     }
 
     export interface Query {
